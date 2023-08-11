@@ -16,8 +16,8 @@ class Solution {
     private int countSetBits(int num) {
         int count = 0;
         while (num > 0) {
-            num &= (num - 1);
             count++;
+            num &= (num - 1);
         }
         return count;
     }
