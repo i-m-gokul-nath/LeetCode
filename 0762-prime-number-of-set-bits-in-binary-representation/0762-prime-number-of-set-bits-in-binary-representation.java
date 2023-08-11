@@ -1,9 +1,11 @@
 class Solution {
     public int countPrimeSetBits(int left, int right) {
         int count = 0;
+        boolean[] primes = new boolean[33];
+        primes[2] = primes[3] = primes[5] = primes[7] = primes[11] = primes[13] = primes[17] = primes[19] = primes[23] = primes[29] = primes[31] = true;
 
         for (int num = left; num <= right; num++) {
-            if (isPrime(countSetBits(num))) {
+            if (primes[countSetBits(num)]) {
                 count++;
             }
         }
@@ -18,17 +20,5 @@ class Solution {
             count++;
         }
         return count;
-    }
-
-    private boolean isPrime(int num) {
-        if (num <= 1) {
-            return false;
-        }
-        for (int i = 2; i * i <= num; i++) {
-            if (num % i == 0) {
-                return false;
-            }
-        }
-        return true;
     }
 }
