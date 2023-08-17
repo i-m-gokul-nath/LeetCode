@@ -1,11 +1,15 @@
 class Solution {
     public int distributeCandies(int[] candyType) {
-        Set<Integer> candySet = new HashSet<>();
+        boolean[] candyPresent = new boolean[200001]; // Considering the constraint -10^5 <= candyType[i] <= 10^5
         
+        int uniqueCandies = 0;
         for (int candy : candyType) {
-            candySet.add(candy);
+            if (!candyPresent[candy + 100000]) {
+                uniqueCandies++;
+                candyPresent[candy + 100000] = true;
+            }
         }
         
-        return Math.min(candySet.size(), candyType.length / 2);
+        return Math.min(uniqueCandies, candyType.length / 2);
     }
 }
