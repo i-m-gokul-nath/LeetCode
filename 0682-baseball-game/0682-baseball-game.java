@@ -1,38 +1,37 @@
-import java.util.Stack;
-
 class Solution {
     public int calPoints(String[] operations) {
-        Stack<Integer> stack = new Stack<>();
+        int[] stack = new int[operations.length];
         int totalSum = 0;
-        
+        int top = -1;
+
         for (String op : operations) {
             if (op.equals("C")) {
-                if (!stack.isEmpty()) {
-                    totalSum -= stack.pop(); // Remove and subtract the last score from the sum
+                if (top >= 0) {
+                    totalSum -= stack[top];
+                    top--;
                 }
             } else if (op.equals("D")) {
-                if (!stack.isEmpty()) {
-                    int prevScore = stack.peek();
-                    int newScore = prevScore * 2;
-                    stack.push(newScore); // Push the new score onto the stack
-                    totalSum += newScore; // Add the new score to the sum
+                if (top >= 0) {
+                    int newScore = stack[top] * 2;
+                    stack[top + 1] = newScore;
+                    totalSum += newScore;
+                    top++;
                 }
             } else if (op.equals("+")) {
-                if (stack.size() >= 2) {
-                    int lastScore = stack.pop();
-                    int secondLastScore = stack.peek();
-                    int newScore = lastScore + secondLastScore;
-                    stack.push(lastScore);
-                    stack.push(newScore); // Push the new score onto the stack
-                    totalSum += newScore; // Add the new score to the sum
+                if (top >= 1) {
+                    int newScore = stack[top] + stack[top - 1];
+                    stack[top + 1] = newScore;
+                    totalSum += newScore;
+                    top++;
                 }
             } else {
                 int score = Integer.parseInt(op);
-                stack.push(score); // Push the integer score onto the stack
-                totalSum += score; // Add the score to the sum
+                stack[top + 1] = score;
+                totalSum += score;
+                top++;
             }
         }
-        
+
         return totalSum;
     }
 }
