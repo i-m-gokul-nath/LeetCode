@@ -1,57 +1,77 @@
 class MyHashMap {
-    private final int size = 1000001; 
+    private static final int SIZE = 10000;
 
-    private int[] keys;
-    private int[] values;
+    private Node[] buckets;
 
     public MyHashMap() {
-        keys = new int[size];
-        values = new int[size];
-        Arrays.fill(keys, -1); 
+        buckets = new Node[SIZE];
     }
 
-    private int hash(int key) {
-        return key % size;
+    private int getIndex(int key) {
+        return key % SIZE;
     }
 
     public void put(int key, int value) {
-        int index = hash(key);
-        
-        while (keys[index] != -1) {
-            if (keys[index] == key) {
-                values[index] = value; 
-                return;
+        int index = getIndex(key);
+
+        if (buckets[index] == null) {
+            buckets[index] = new Node(key, value);
+        } else {
+            Node current = buckets[index];
+            while (current.next != null && current.key != key) {
+                current = current.next;
             }
-            index = (index + 1) % size;
+
+            if (current.key == key) {
+                current.value = value; // Update existing value
+            } else {
+                current.next = new Node(key, value);
+            }
         }
-        
-        keys[index] = key;
-        values[index] = value;
     }
 
     public int get(int key) {
-        int index = hash(key);
+        int index = getIndex(key);
 
-        while (keys[index] != -1) {
-            if (keys[index] == key) {
-                return values[index];
+        Node current = buckets[index];
+        while (current != null) {
+            if (current.key == key) {
+                return current.value;
             }
-            index = (index + 1) % size;
+            current = current.next;
         }
-        
+
         return -1;
     }
 
     public void remove(int key) {
-        int index = hash(key);
+        int index = getIndex(key);
 
-        while (keys[index] != -1) {
-            if (keys[index] == key) {
-                keys[index] = -1;
-                values[index] = 0; 
-                return;
+        Node dummy = new Node(-1, -1);
+        dummy.next = buckets[index];
+        Node prev = dummy, current = buckets[index];
+        
+        while (current != null) {
+            if (current.key == key) {
+                prev.next = current.next;
+                break;
             }
-            index = (index + 1) % size;
+            prev = current;
+            current = current.next;
+        }
+        
+        buckets[index] = dummy.next;
+    }
+
+    private static class Node {
+        int key;
+        int value;
+        Node next;
+
+        public Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+            this.next = null;
         }
     }
 }
