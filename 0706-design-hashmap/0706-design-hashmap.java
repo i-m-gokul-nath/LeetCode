@@ -1,25 +1,61 @@
 class MyHashMap {
-    private final int size = 1000001; // Considering maximum key value
+    private final int size = 1000001; 
 
-    private int[] map;
+    private int[] keys;
+    private int[] values;
 
     public MyHashMap() {
-        map = new int[size];
-        Arrays.fill(map, -1); // Initialize with -1 (indicating no value)
+        keys = new int[size];
+        values = new int[size];
+        Arrays.fill(keys, -1); 
+    }
+
+    private int hash(int key) {
+        return key % size;
     }
 
     public void put(int key, int value) {
-        map[key] = value;
+        int index = hash(key);
+        
+        while (keys[index] != -1) {
+            if (keys[index] == key) {
+                values[index] = value; 
+                return;
+            }
+            index = (index + 1) % size;
+        }
+        
+        keys[index] = key;
+        values[index] = value;
     }
 
     public int get(int key) {
-        return map[key];
+        int index = hash(key);
+
+        while (keys[index] != -1) {
+            if (keys[index] == key) {
+                return values[index];
+            }
+            index = (index + 1) % size;
+        }
+        
+        return -1;
     }
 
     public void remove(int key) {
-        map[key] = -1;
+        int index = hash(key);
+
+        while (keys[index] != -1) {
+            if (keys[index] == key) {
+                keys[index] = -1;
+                values[index] = 0; 
+                return;
+            }
+            index = (index + 1) % size;
+        }
     }
 }
+
 
 /**
  * Your MyHashMap object will be instantiated and called as such:
