@@ -1,13 +1,11 @@
 class Solution {
     public int[] countBits(int n) {
         int[] result = new int[n + 1];
-        result[0] = 0;
-
         for (int i = 1; i <= n; i++) {
-            
-            result[i] = result[i / 2] + (i % 2);
+            // To count the number of 1's in i, you can use the formula:
+            // result[i] = result[i >> 1] + (i & 1);
+            result[i] = result[i >> 1] + (i & 1);
         }
-
         return result;
     }
 }
