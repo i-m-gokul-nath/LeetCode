@@ -3,28 +3,18 @@ class Solution {
         Set<String> uniqueEmails = new HashSet<>();
 
         for (String email : emails) {
-            StringBuilder sb = new StringBuilder();
-            boolean ignore = false;
-            boolean domainPart = false;
+            int atIndex = email.indexOf('@');
+            String localName = email.substring(0, atIndex);
+            String domainName = email.substring(atIndex);
 
-            for (char c : email.toCharArray()) {
-                if (c == '@') {
-                    ignore = false;
-                    domainPart = true;
-                }
-
-                if (!domainPart) {
-                    if (c == '+') {
-                        ignore = true;
-                    } else if (c != '.' && !ignore) {
-                        sb.append(c);
-                    }
-                } else {
-                    sb.append(c);
-                }
+            // Remove '+' and '.' from local name
+            localName = localName.replace(".", "");
+            int plusIndex = localName.indexOf('+');
+            if (plusIndex != -1) {
+                localName = localName.substring(0, plusIndex);
             }
 
-            uniqueEmails.add(sb.toString());
+            uniqueEmails.add(localName + domainName);
         }
 
         return uniqueEmails.size();
