@@ -3,18 +3,16 @@ class Solution {
         Set<String> uniqueEmails = new HashSet<>();
 
         for (String email : emails) {
-            int atIndex = email.indexOf('@');
-            String localName = email.substring(0, atIndex);
-            String domainName = email.substring(atIndex);
+            String[] parts = email.split("@");
+            String localName = parts[0];
+            String domain = parts[1];
 
-            // Remove '+' and '.' from local name
-            localName = localName.replace(".", "");
-            int plusIndex = localName.indexOf('+');
-            if (plusIndex != -1) {
-                localName = localName.substring(0, plusIndex);
-            }
+            // Remove '.' from the local name and ignore characters after '+'
+            localName = localName.replaceAll("\\.", "");
+            localName = localName.split("\\+")[0];
 
-            uniqueEmails.add(localName + domainName);
+            String sanitizedEmail = localName + "@" + domain;
+            uniqueEmails.add(sanitizedEmail);
         }
 
         return uniqueEmails.size();
