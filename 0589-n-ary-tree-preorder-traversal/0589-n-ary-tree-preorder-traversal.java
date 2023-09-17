@@ -17,14 +17,13 @@ class Node {
 };
 */
 
+
 import java.util.*;
 
 class Solution {
     public List<Integer> preorder(Node root) {
         List<Integer> result = new ArrayList<>();
-        if (root == null) {
-            return result;
-        }
+        if (root == null) return result;
 
         Stack<Node> stack = new Stack<>();
         stack.push(root);
@@ -33,7 +32,7 @@ class Solution {
             Node node = stack.pop();
             result.add(node.val);
 
-            // Push children onto the stack in reverse order (right to left)
+            // Push children in reverse order so that the leftmost child is processed first.
             for (int i = node.children.size() - 1; i >= 0; i--) {
                 stack.push(node.children.get(i));
             }
