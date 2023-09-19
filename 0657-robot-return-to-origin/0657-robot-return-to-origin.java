@@ -4,14 +4,19 @@ class Solution {
         int vertical = 0;
 
         for (char move : moves.toCharArray()) {
-            if (move == 'U') {
-                vertical++;
-            } else if (move == 'D') {
-                vertical--;
-            } else if (move == 'L') {
-                horizontal--;
-            } else if (move == 'R') {
-                horizontal++;
+            switch (move) {
+                case 'U':
+                    vertical++;
+                    break;
+                case 'D':
+                    vertical--;
+                    break;
+                case 'L':
+                    horizontal++;
+                    break;
+                case 'R':
+                    horizontal--;
+                    break;
             }
         }
 
