@@ -1,25 +1,19 @@
-import java.util.LinkedList;
-
 class Solution {
     public int[] createTargetArray(int[] nums, int[] index) {
         int n = nums.length;
-        LinkedList<Integer> target = new LinkedList<>();
+        int[] target = new int[n];
         
         for (int i = 0; i < n; i++) {
             int idx = index[i];
             int num = nums[i];
             
+            // Shift elements to the right to make space for the new element
+            System.arraycopy(target, idx, target, idx + 1, n - idx - 1);
+            
             // Insert the element at the specified index
-            target.add(idx, num);
+            target[idx] = num;
         }
         
-        // Convert the LinkedList to an array
-        int[] result = new int[n];
-        int i = 0;
-        for (int num : target) {
-            result[i++] = num;
-        }
-        
-        return result;
+        return target;
     }
 }
