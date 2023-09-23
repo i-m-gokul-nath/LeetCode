@@ -1,29 +1,23 @@
+import java.util.Arrays;
+
 class Solution {
     public int[] sortByBits(int[] arr) {
-        Integer[] sortedArr = new Integer[arr.length];
+        Integer[] boxedArr = Arrays.stream(arr).boxed().toArray(Integer[]::new);
         
-        // Convert int[] to Integer[] for custom sorting
-        for (int i = 0; i < arr.length; i++) {
-            sortedArr[i] = arr[i];
-        }
-        
-        // Custom comparator for sorting
-        Arrays.sort(sortedArr, (a, b) -> {
-            int countA = Integer.bitCount(a); // Count 1's in binary representation of a
-            int countB = Integer.bitCount(b); // Count 1's in binary representation of b
+        Arrays.sort(boxedArr, (a, b) -> {
+            int countA = Integer.bitCount(a);
+            int countB = Integer.bitCount(b);
             
             if (countA == countB) {
-                // If counts are equal, sort by the number itself
                 return a - b;
             } else {
-                // Otherwise, sort by the count of 1's
                 return countA - countB;
             }
         });
         
-        // Convert Integer[] back to int[]
+        // Convert back to primitive int array
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = sortedArr[i];
+            arr[i] = boxedArr[i];
         }
         
         return arr;
