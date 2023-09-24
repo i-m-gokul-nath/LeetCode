@@ -1,15 +1,12 @@
-import java.util.HashMap;
-import java.util.Map;
-
 class Solution {
     public int repeatedNTimes(int[] nums) {
-        Map<Integer, Integer> frequencyMap = new HashMap<>();
+        int n = nums.length / 2;
         
-        for (int num : nums) {
-            frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
-            
-            if (frequencyMap.get(num) == nums.length / 2) {
-                return num;
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] == nums[j]) {
+                    return nums[i];
+                }
             }
         }
         
