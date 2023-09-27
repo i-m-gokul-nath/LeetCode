@@ -1,11 +1,13 @@
 class Solution {
     public int numIdenticalPairs(int[] nums) {
-        int[] count = new int[101]; // Since 1 <= nums[i] <= 100
         int goodPairs = 0;
 
-        for (int num : nums) {
-            goodPairs += count[num];
-            count[num]++;
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] == nums[j]) {
+                    goodPairs++;
+                }
+            }
         }
 
         return goodPairs;
