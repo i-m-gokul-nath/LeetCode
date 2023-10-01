@@ -1,16 +1,14 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 class Solution {
     public List<Integer> partitionLabels(String s) {
         List<Integer> result = new ArrayList<>();
-        Map<Character, Integer> lastOccurrence = new HashMap<>();
+        int[] lastOccurrence = new int[26];
 
         // Record the last occurrence index of each character.
         for (int i = 0; i < s.length(); i++) {
-            lastOccurrence.put(s.charAt(i), i);
+            lastOccurrence[s.charAt(i) - 'a'] = i;
         }
 
         int start = 0;
@@ -18,7 +16,7 @@ class Solution {
 
         for (int i = 0; i < s.length(); i++) {
             char currentChar = s.charAt(i);
-            end = Math.max(end, lastOccurrence.get(currentChar));
+            end = Math.max(end, lastOccurrence[currentChar - 'a']);
 
             if (i == end) {
                 result.add(end - start + 1);
