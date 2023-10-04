@@ -1,25 +1,22 @@
+import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Deque;
 
 class Solution {
     public int[] deckRevealedIncreasing(int[] deck) {
         int n = deck.length;
-        
-        // Sort the deck in ascending order.
         Arrays.sort(deck);
         
-        // Initialize a queue to simulate revealing the cards.
-        Queue<Integer> queue = new LinkedList<>();
+        Deque<Integer> indexQueue = new ArrayDeque<>();
         for (int i = 0; i < n; i++) {
-            queue.add(i);
+            indexQueue.offer(i);
         }
         
         int[] result = new int[n];
         for (int card : deck) {
-            result[queue.poll()] = card; // Reveal the card and place it in the result array.
-            if (!queue.isEmpty()) {
-                queue.add(queue.poll()); // Move the next card to the bottom of the deck.
+            result[indexQueue.poll()] = card;
+            if (!indexQueue.isEmpty()) {
+                indexQueue.offer(indexQueue.poll());
             }
         }
         
