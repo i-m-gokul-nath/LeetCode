@@ -23,22 +23,18 @@ class Solution {
             return null;
         }
 
-        int maxIndex = findMaxIndex(nums, left, right);
-        TreeNode root = new TreeNode(nums[maxIndex]);
-
-        root.left = constructMaxBinaryTree(nums, left, maxIndex - 1);
-        root.right = constructMaxBinaryTree(nums, maxIndex + 1, right);
-
-        return root;
-    }
-
-    private int findMaxIndex(int[] nums, int left, int right) {
         int maxIndex = left;
         for (int i = left + 1; i <= right; i++) {
             if (nums[i] > nums[maxIndex]) {
                 maxIndex = i;
             }
         }
-        return maxIndex;
+
+        TreeNode root = new TreeNode(nums[maxIndex]);
+
+        root.left = constructMaxBinaryTree(nums, left, maxIndex - 1);
+        root.right = constructMaxBinaryTree(nums, maxIndex + 1, right);
+
+        return root;
     }
 }
