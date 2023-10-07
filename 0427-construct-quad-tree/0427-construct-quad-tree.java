@@ -44,21 +44,35 @@ class Solution {
     }
 
     private Node buildQuadTree(int[][] grid, int x, int y, int size) {
-        if (size == 1) {
-            return new Node(grid[x][y] == 1, true, null, null, null, null);
+        if (size == 0) {
+            return null;
         }
-
-        int half = size / 2;
-        Node topLeft = buildQuadTree(grid, x, y, half);
-        Node topRight = buildQuadTree(grid, x, y + half, half);
-        Node bottomLeft = buildQuadTree(grid, x + half, y, half);
-        Node bottomRight = buildQuadTree(grid, x + half, y + half, half);
-
-        if (topLeft.isLeaf && topRight.isLeaf && bottomLeft.isLeaf && bottomRight.isLeaf
-                && topLeft.val == topRight.val && topRight.val == bottomLeft.val && bottomLeft.val == bottomRight.val) {
-            return new Node(topLeft.val, true, null, null, null, null);
+        
+        boolean isLeaf = true;
+        int val = grid[x][y];
+        
+        for (int i = x; i < x + size; i++) {
+            for (int j = y; j < y + size; j++) {
+                if (grid[i][j] != val) {
+                    isLeaf = false;
+                    break;
+                }
+            }
+            if (!isLeaf) {
+                break;
+            }
         }
-
-        return new Node(false, false, topLeft, topRight, bottomLeft, bottomRight);
+        
+        if (isLeaf) {
+            return new Node(val == 1, true, null, null, null, null);
+        } else {
+            int half = size / 2;
+            return new Node(false, false,
+                buildQuadTree(grid, x, y, half),
+                buildQuadTree(grid, x, y + half, half),
+                buildQuadTree(grid, x + half, y, half),
+                buildQuadTree(grid, x + half, y + half, half)
+            );
+        }
     }
 }
