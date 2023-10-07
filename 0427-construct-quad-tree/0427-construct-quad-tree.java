@@ -40,8 +40,7 @@ class Node {
 
 class Solution {
     public Node construct(int[][] grid) {
-        int n = grid.length;
-        return buildQuadTree(grid, 0, 0, n);
+        return buildQuadTree(grid, 0, 0, grid.length);
     }
 
     private Node buildQuadTree(int[][] grid, int x, int y, int size) {
