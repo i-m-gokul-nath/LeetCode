@@ -1,19 +1,19 @@
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 class Solution {
     public int[][] reconstructQueue(int[][] people) {
-        
         Arrays.sort(people, (a, b) -> a[0] == b[0] ? a[1] - b[1] : b[0] - a[0]);
+        int n = people.length;
+        int[][] queue = new int[n][2];
         
-        List<int[]> queue = new ArrayList<>();
-        
-        for (int[] person : people) {
-            queue.add(person[1], person);
+        for (int i = 0; i < n; i++) {
+            int k = people[i][1];
+            for (int j = i; j > k; j--) {
+                queue[j] = queue[j - 1];
+            }
+            queue[k] = people[i];
         }
         
-        // Convert the ArrayList to an array
-        return queue.toArray(new int[people.length][2]);
+        return queue;
     }
 }
