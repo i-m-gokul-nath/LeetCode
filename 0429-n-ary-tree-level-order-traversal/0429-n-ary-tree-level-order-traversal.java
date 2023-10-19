@@ -18,7 +18,6 @@ class Node {
 */
 
 import java.util.*;
-
 class Solution {
     public List<List<Integer>> levelOrder(Node root) {
         List<List<Integer>> result = new ArrayList<>();
@@ -31,7 +30,7 @@ class Solution {
 
         while (!queue.isEmpty()) {
             int size = queue.size();
-            List<Integer> levelValues = new ArrayList<>();
+            List<Integer> levelValues = new ArrayList<>(size);
 
             for (int i = 0; i < size; i++) {
                 Node node = queue.poll();
