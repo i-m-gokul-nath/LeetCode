@@ -13,44 +13,35 @@ class Solution {
         if (head == null || head.next == null) {
             return head;
         }
-        int length = 0;
-        ListNode current = head;
-        while (current != null) {
-            current = current.next;
-            length++;
-        }
         
+        // Split the list into two halves
+        ListNode mid = findMiddle(head);
+        ListNode left = head;
+        ListNode right = mid.next;
+        mid.next = null;
+        
+        // Recursively sort each half
+        left = sortList(left);
+        right = sortList(right);
+        
+        // Merge the sorted halves
+        return merge(left, right);
+    }
+    
+    private ListNode findMiddle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+    
+    private ListNode merge(ListNode left, ListNode right) {
         ListNode dummy = new ListNode(0);
-        dummy.next = head;
+        ListNode current = dummy;
         
-        for (int step = 1; step < length; step <<= 1) {
-            ListNode prev = dummy;
-            current = dummy.next;
-            while (current != null) {
-                ListNode left = current;
-                ListNode right = split(left, step);
-                current = split(right, step);
-                prev = merge(left, right, prev);
-            }
-        }
-        
-        return dummy.next;
-    }
-    
-    private ListNode split(ListNode head, int step) {
-        if (head == null) {
-            return null;
-        }
-        for (int i = 1; head.next != null && i < step; i++) {
-            head = head.next;
-        }
-        ListNode right = head.next;
-        head.next = null;
-        return right;
-    }
-    
-    private ListNode merge(ListNode left, ListNode right, ListNode prev) {
-        ListNode current = prev;
         while (left != null && right != null) {
             if (left.val < right.val) {
                 current.next = left;
@@ -61,10 +52,15 @@ class Solution {
             }
             current = current.next;
         }
-        current.next = (left != null) ? left : right;
-        while (current.next != null) {
-            current = current.next;
+        
+        if (left != null) {
+            current.next = left;
         }
-        return current;
+        
+        if (right != null) {
+            current.next = right;
+        }
+        
+        return dummy.next;
     }
 }
