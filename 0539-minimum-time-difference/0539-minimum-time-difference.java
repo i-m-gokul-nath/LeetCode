@@ -1,29 +1,32 @@
-import java.util.List;
-import java.util.Collections;
+import java.util.*;
 
 class Solution {
     public int findMinDifference(List<String> timePoints) {
-        int n = timePoints.size();
-        List<Integer> minutes = new ArrayList<>();
-        
+        boolean[] minutes = new boolean[24 * 60]; // to mark whether each minute is visited
+        int minTime = 24 * 60; // maximum possible time
+
         for (String time : timePoints) {
             int minutesOfDay = convertToMinutes(time);
-            minutes.add(minutesOfDay);
+            if (minutes[minutesOfDay]) return 0; // there's at least one duplicate
+            minutes[minutesOfDay] = true;
         }
-        
-        Collections.sort(minutes);
-        
-        int minDiff = Integer.MAX_VALUE;
-        
-        for (int i = 1; i < n; i++) {
-            minDiff = Math.min(minDiff, minutes.get(i) - minutes.get(i - 1));
+
+        int prev = 0, first = Integer.MAX_VALUE, last = Integer.MIN_VALUE;
+
+        for (int i = 0; i < 24 * 60; i++) {
+            if (minutes[i]) {
+                if (first != Integer.MAX_VALUE) {
+                    minTime = Math.min(minTime, i - prev);
+                }
+                first = Math.min(first, i);
+                last = Math.max(last, i);
+                prev = i;
+            }
         }
-        
+
         // Consider the circular property of the 24-hour clock
-        int lastToFirst = 24 * 60 - minutes.get(n - 1) + minutes.get(0);
-        minDiff = Math.min(minDiff, lastToFirst);
-        
-        return minDiff;
+        int circular = 24 * 60 - (last - first);
+        return Math.min(minTime, circular);
     }
 
     private int convertToMinutes(String time) {
