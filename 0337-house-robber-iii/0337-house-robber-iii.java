@@ -13,33 +13,23 @@
  *     }
  * }
  */
-import java.util.HashMap;
-
 class Solution {
     public int rob(TreeNode root) {
-        return robInternal(root, new HashMap<>());
+        int[] result = robInternal(root);
+        return Math.max(result[0], result[1]);
     }
 
-    private int robInternal(TreeNode node, HashMap<TreeNode, Integer> memo) {
+    private int[] robInternal(TreeNode node) {
         if (node == null) {
-            return 0;
-        }
-        
-        if (memo.containsKey(node)) {
-            return memo.get(node);
+            return new int[]{0, 0};
         }
 
-        // Rob the current house
-        int robCurrent = node.val +
-            (node.left == null ? 0 : robInternal(node.left.left, memo) + robInternal(node.left.right, memo)) +
-            (node.right == null ? 0 : robInternal(node.right.left, memo) + robInternal(node.right.right, memo));
+        int[] left = robInternal(node.left);
+        int[] right = robInternal(node.right);
 
-        // Skip the current house
-        int skipCurrent = robInternal(node.left, memo) + robInternal(node.right, memo);
+        int robThis = node.val + left[1] + right[1];
+        int skipThis = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
 
-        int result = Math.max(robCurrent, skipCurrent);
-        memo.put(node, result);
-
-        return result;
+        return new int[]{robThis, skipThis};
     }
 }
