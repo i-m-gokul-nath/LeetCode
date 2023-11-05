@@ -7,7 +7,7 @@ class Solution {
             String start = queries.get(i).get(0);
             String end = queries.get(i).get(1);
             Set<String> visited = new HashSet<>();
-            results[i] = dfs(graph, start, end, 1.0, visited);
+            results[i] = dfs(graph, start, end, 1.0, visited, new HashMap<>());
         }
         
         return results;
@@ -28,7 +28,7 @@ class Solution {
         return graph;
     }
 
-    private double dfs(Map<String, Map<String, Double>> graph, String current, String target, double result, Set<String> visited) {
+    private double dfs(Map<String, Map<String, Double>> graph, String current, String target, double result, Set<String> visited, Map<String, Double> memo) {
         if (!graph.containsKey(current) || visited.contains(current)) {
             return -1.0;
         }
@@ -37,18 +37,23 @@ class Solution {
             return result;
         }
         
+        if (memo.containsKey(current)) {
+            return memo.get(current);
+        }
+        
         visited.add(current);
         Map<String, Double> neighbors = graph.get(current);
         double tempResult = -1.0;
         
         for (Map.Entry<String, Double> neighbor : neighbors.entrySet()) {
-            tempResult = dfs(graph, neighbor.getKey(), target, result * neighbor.getValue(), visited);
+            tempResult = dfs(graph, neighbor.getKey(), target, result * neighbor.getValue(), visited, memo);
             if (tempResult != -1.0) {
                 break;
             }
         }
         
         visited.remove(current);
+        memo.put(current, tempResult);
         
         return tempResult;
     }
