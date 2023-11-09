@@ -5,14 +5,14 @@ import java.util.Queue;
 
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        List<List<Integer>> adjList = new ArrayList<>(numCourses);
+        List<Integer>[] adjList = new ArrayList[numCourses];
         for (int i = 0; i < numCourses; i++) {
-            adjList.add(new ArrayList<>());
+            adjList[i] = new ArrayList<>();
         }
         int[] inDegrees = new int[numCourses];
 
         for (int[] prerequisite : prerequisites) {
-            adjList.get(prerequisite[1]).add(prerequisite[0]);
+            adjList[prerequisite[1]].add(prerequisite[0]);
             inDegrees[prerequisite[0]]++;
         }
 
@@ -29,7 +29,7 @@ class Solution {
             int course = queue.poll();
             count++;
 
-            for (int neighbor : adjList.get(course)) {
+            for (int neighbor : adjList[course]) {
                 inDegrees[neighbor]--;
                 if (inDegrees[neighbor] == 0) {
                     queue.add(neighbor);
