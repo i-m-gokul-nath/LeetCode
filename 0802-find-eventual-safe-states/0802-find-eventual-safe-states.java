@@ -4,7 +4,7 @@ import java.util.List;
 class Solution {
     public List<Integer> eventualSafeNodes(int[][] graph) {
         int n = graph.length;
-        int[] color = new int[n]; // 0: not visited, 1: visiting, 2: visited (safe)
+        int[] color = new int[n]; // 0: not visited, 1: unsafe, 2: safe
 
         List<Integer> result = new ArrayList<>();
 
@@ -22,7 +22,7 @@ class Solution {
             return color[node] == 2;
         }
 
-        color[node] = 1; // Mark as visiting
+        color[node] = 1; // Mark as unsafe before recursive calls
 
         for (int neighbor : graph[node]) {
             if (!dfs(neighbor, graph, color)) {
@@ -30,7 +30,7 @@ class Solution {
             }
         }
 
-        color[node] = 2; // Mark as visited and safe
+        color[node] = 2; // Mark as safe
         return true;
     }
 }
