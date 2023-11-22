@@ -1,20 +1,18 @@
 class Solution {
     public boolean isValidSerialization(String preorder) {
         String[] nodes = preorder.split(",");
-        int slots = 1; 
+        int slots = 1;
 
         for (String node : nodes) {
-            if (slots == 0) {
-                return false; 
+            if (--slots < 0) {
+                return false;
             }
 
-            if (node.equals("#")) {
-                slots--; 
-            } else {
-                slots++; 
+            if (!node.equals("#")) {
+                slots += 2;
             }
         }
 
-        return slots == 0; 
+        return slots == 0;
     }
 }
