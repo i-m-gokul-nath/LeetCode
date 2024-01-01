@@ -5,20 +5,16 @@ class Solution {
         Arrays.sort(g);
         Arrays.sort(s);
 
-        int gPointer = 0; // Pointer for greed factors
-        int sPointer = 0; // Pointer for cookie sizes
-        int contentChildren = 0; // Count of content children
+        int contentChildren = 0;
+        int i = 0; // Index for greed factors
+        int j = 0; // Index for cookie sizes
 
-        while (gPointer < g.length && sPointer < s.length) {
-            if (s[sPointer] >= g[gPointer]) {
-                // Assign this cookie to the child
+        while (i < g.length && j < s.length) {
+            if (s[j] >= g[i]) {
                 contentChildren++;
-                gPointer++;
-                sPointer++;
-            } else {
-                // Move to the next cookie
-                sPointer++;
+                i++; // Move to the next child
             }
+            j++; // Move to the next cookie
         }
 
         return contentChildren;
