@@ -9,9 +9,10 @@ class Solution {
         Map<String, List<String>> anagramGroups = new HashMap<>();
 
         for (String str : strs) {
-            char[] chars = str.toCharArray();
-            Arrays.sort(chars);
-            String sortedStr = new String(chars);
+
+            char[] charArray = str.toCharArray();
+            Arrays.sort(charArray);
+            String sortedStr = new String(charArray);
 
             if (!anagramGroups.containsKey(sortedStr)) {
                 anagramGroups.put(sortedStr, new ArrayList<>());
