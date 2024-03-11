@@ -1,27 +1,27 @@
-import java.util.Arrays;
-import java.util.Comparator;
-
 class Solution {
     public String customSortString(String order, String s) {
-        int[] customOrder = new int[26];
-        Arrays.fill(customOrder, -1);
+        int[] count = new int[26];
 
-        for (int i = 0; i < order.length(); i++) {
-            customOrder[order.charAt(i) - 'a'] = i;
+        for (char c : s.toCharArray()) {
+            count[c - 'a']++;
         }
-
-        Comparator<Character> comparator = (a, b) -> Integer.compare(customOrder[a - 'a'], customOrder[b - 'a']);
-
-        Character[] sArray = new Character[s.length()];
-        for (int i = 0; i < s.length(); i++) {
-            sArray[i] = s.charAt(i);
-        }
-        Arrays.sort(sArray, comparator);
 
         StringBuilder result = new StringBuilder();
-        for (char c : sArray) {
-            result.append(c);
+
+        for (char c : order.toCharArray()) {
+            while (count[c - 'a'] > 0) {
+                result.append(c);
+                count[c - 'a']--;
+            }
         }
+
+        for (char c = 'a'; c <= 'z'; c++) {
+            while (count[c - 'a'] > 0) {
+                result.append(c);
+                count[c - 'a']--;
+            }
+        }
+
         return result.toString();
     }
 }
