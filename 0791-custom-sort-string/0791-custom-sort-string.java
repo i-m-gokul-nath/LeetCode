@@ -1,29 +1,27 @@
+import java.util.Arrays;
+import java.util.Comparator;
+
 class Solution {
     public String customSortString(String order, String s) {
-        // Create a character frequency array for string s.
-        int[] charCount = new int[26];
-        for (char c : s.toCharArray()) {
-            charCount[c - 'a']++;
+        int[] customOrder = new int[26];
+        Arrays.fill(customOrder, -1);
+
+        for (int i = 0; i < order.length(); i++) {
+            customOrder[order.charAt(i) - 'a'] = i;
         }
-        
+
+        Comparator<Character> comparator = (a, b) -> Integer.compare(customOrder[a - 'a'], customOrder[b - 'a']);
+
+        Character[] sArray = new Character[s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            sArray[i] = s.charAt(i);
+        }
+        Arrays.sort(sArray, comparator);
+
         StringBuilder result = new StringBuilder();
-        
-        // Append characters from order to the result string.
-        for (char c : order.toCharArray()) {
-            while (charCount[c - 'a'] > 0) {
-                result.append(c);
-                charCount[c - 'a']--;
-            }
+        for (char c : sArray) {
+            result.append(c);
         }
-        
-        // Append remaining characters from s to the result string.
-        for (char c = 'a'; c <= 'z'; c++) {
-            while (charCount[c - 'a'] > 0) {
-                result.append(c);
-                charCount[c - 'a']--;
-            }
-        }
-        
         return result.toString();
     }
 }
