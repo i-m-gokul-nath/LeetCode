@@ -32,11 +32,11 @@ class Solution {
         int sum = 0;
         
         if (root.left != null && root.left.left == null && root.left.right == null) {
-            sum += root.left.val; // Add the value of the left leaf node
+            sum += root.left.val; 
         }
         
-        sum += sumOfLeftLeaves(root.left); // Recursively traverse left subtree
-        sum += sumOfLeftLeaves(root.right); // Recursively traverse right subtree
+        sum += sumOfLeftLeaves(root.left); 
+        sum += sumOfLeftLeaves(root.right); 
         
         return sum;
     }
